@@ -9,8 +9,8 @@
     />
     <title>Galileo Design 1</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-     <script src="index.js"></script>
-     <script
+    <script src="index.js"></script>
+    <script
       type="text/javascript"
       src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
     ></script>
@@ -18,58 +18,24 @@
       (function () {
         emailjs.init("J2EFVJfsCeDK1iyl1l");
       })();
-     
+      
       let availableSeats = 250;
 
       document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('confirmReservationButton').addEventListener('click', sendReservationEmail);
-        
         // Bloquear fechas pasadas en el calendario
         const dateInput = document.getElementById('date');
         dateInput.min = new Date().toISOString().split('T')[0]; // Establecer la fecha mínima como la fecha actual
+        
+        // Asociar la función sendMail al evento click del botón
+        document.getElementById('confirmReservationButton').addEventListener('click', sendMail);
       });
-
-      function sendReservationEmail() {
-        // Obtener los valores de los campos
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const date = document.getElementById('date').value;
-        const selectedPartySize = document.querySelector('input[name="partySize"]:checked');
-
-        // Validar campos vacíos
-        if (!name || !email || !phone || !date || !selectedPartySize) {
-          alert("Por favor, complete todos los campos.");
-          return;
-        }
-
-        const partySize = parseInt(selectedPartySize.value);
-
-        // Validar disponibilidad de sillas
-        if (availableSeats - partySize < 0) {
-          alert("No hay suficientes sillas disponibles para esta reserva.");
-          return;
-        }
-
-        // Preparar datos para enviar
-        const emailData = {
-          name: name,
-          email: email,
-          phone: phone,
-          date: date,
-          partySize: partySize
-        };
-
-        // Aquí podrías agregar el código para enviar el email utilizando emailjs
-        console.log("Reserva confirmada: ", emailData);
-      }
     </script>
   </head>
   <body>
     <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden">
       <div class="layout-container flex h-full grow flex-col">
         <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f4f1f0] px-10 py-3">
-          <h2 class="text-[#181211] text-lg font-bold">Delish 1</h2>
+          <h2 class="text-[#181211] text-lg font-bold">Delish 2</h2>
         </header>
         <div class="px-40 flex flex-1 justify-center py-5">
           <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5">
