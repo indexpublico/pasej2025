@@ -9,14 +9,16 @@
     />
     <title>Galileo Design</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
      <script src="index.js"></script>
-    <script>
-      // Inicializa el servicio de emailjs
+     <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
       (function () {
-        emailjs.init("2EFVJfsCeDK1iyl1l");
+        emailjs.init("J2EFVJfsCeDK1iyl1l");
       })();
-
+     
       let availableSeats = 250;
 
       document.addEventListener('DOMContentLoaded', () => {
