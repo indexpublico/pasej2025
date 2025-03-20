@@ -11,21 +11,34 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
+      let availableSeats = 250;
+
+   <script src="index.js"></script>
+
+    <script
+      type="text/javascript"
+      src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"
+    ></script>
+    <script type="text/javascript">
+      (function () {
+        emailjs.init("2EFVJfsCeDK1iyl1l");
+      })();
+    </script>
+
       document.addEventListener('DOMContentLoaded', () => {
-        emailjs.init("your_emailjs_user_id");
-        
-        document.getElementById('confirmReservationButton').addEventListener('click', sendReservationEmail);
+      document.getElementById('confirmReservationButton').addEventListener('click', sendReservationEmail);
       });
 
-      function sendReservationEmail() {
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const date = document.getElementById('date').value;
-        const selectedPartySize = document.querySelector('input[name="partySize"]:checked');
-        
+  
+
         if (!name || !email || !phone || !date || !selectedPartySize) {
           alert("Por favor, complete todos los campos.");
+          return;
+        }
+
+        const partySize = parseInt(selectedPartySize.value);
+        if (availableSeats - partySize < 0) {
+          alert("No hay suficientes sillas disponibles para esta reserva.");
           return;
         }
 
@@ -34,16 +47,10 @@
           email: email,
           phone: phone,
           date: date,
-          partySize: selectedPartySize.value
+          partySize: partySize
         };
 
-        emailjs.send('service_ud1ca5s', 'template_0dy8a7a', emailData)
-          .then(response => {
-            alert("¡Reserva confirmada! Se ha enviado un correo de confirmación.");
-          }, error => {
-            alert("Error al enviar el correo. Inténtelo nuevamente.");
-          });
-      }
+        
     </script>
   </head>
   <body>
@@ -66,10 +73,10 @@
             <h3 class="text-lg font-bold px-4 pt-4">Seleccione el tamaño de la mesa</h3>
             <div class="flex flex-col gap-3 p-4">
               <label class="flex items-center gap-4 rounded-xl border border-solid border-[#e5dddc] p-[15px]">
-                <input type="radio" name="partySize" value="6" class="h-5 w-5"> 6 personas
+                <input type="radio" name="partySize" value="6" class="h-5 w-5" required> 6 personas
               </label>
               <label class="flex items-center gap-4 rounded-xl border border-solid border-[#e5dddc] p-[15px]">
-                <input type="radio" name="partySize" value="10" class="h-5 w-5"> 10 personas
+                <input type="radio" name="partySize" value="10" class="h-5 w-5" required> 10 personas
               </label>
             </div>
             
