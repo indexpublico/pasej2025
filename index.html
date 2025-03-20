@@ -1,0 +1,92 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="" />
+    <link
+      rel="stylesheet"
+      as="style"
+      onload="this.rel='stylesheet'"
+      href="https://fonts.googleapis.com/css2?display=swap&amp;family=Epilogue%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900"
+    />
+    <title>Galileo Design</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        emailjs.init("your_emailjs_user_id");
+        
+        document.getElementById('confirmReservationButton').addEventListener('click', sendReservationEmail);
+      });
+
+      function sendReservationEmail() {
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const phone = document.getElementById('phone').value;
+        const date = document.getElementById('date').value;
+        const selectedPartySize = document.querySelector('input[name="partySize"]:checked');
+        
+        if (!name || !email || !phone || !date || !selectedPartySize) {
+          alert("Por favor, complete todos los campos.");
+          return;
+        }
+
+        const emailData = {
+          name: name,
+          email: email,
+          phone: phone,
+          date: date,
+          partySize: selectedPartySize.value
+        };
+
+        emailjs.send('service_ud1ca5s', 'template_0dy8a7a', emailData)
+          .then(response => {
+            alert("¡Reserva confirmada! Se ha enviado un correo de confirmación.");
+          }, error => {
+            alert("Error al enviar el correo. Inténtelo nuevamente.");
+          });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="relative flex size-full min-h-screen flex-col bg-white group/design-root overflow-x-hidden">
+      <div class="layout-container flex h-full grow flex-col">
+        <header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-b-[#f4f1f0] px-10 py-3">
+          <h2 class="text-[#181211] text-lg font-bold">Delish</h2>
+        </header>
+        <div class="px-40 flex flex-1 justify-center py-5">
+          <div class="layout-content-container flex flex-col w-[512px] max-w-[512px] py-5">
+            <h2 class="text-[#181211] text-[22px] font-bold">Reservar una mesa</h2>
+            
+            <form class="space-y-4 px-4">
+              <input type="text" id="name" placeholder="Nombre y Apellido" class="w-full p-2 border rounded" required>
+              <input type="email" id="email" placeholder="Correo electrónico" class="w-full p-2 border rounded" required>
+              <input type="tel" id="phone" placeholder="Teléfono de contacto" class="w-full p-2 border rounded" required>
+              <input type="date" id="date" class="w-full p-2 border rounded" required>
+            </form>
+            
+            <h3 class="text-lg font-bold px-4 pt-4">Seleccione el tamaño de la mesa</h3>
+            <div class="flex flex-col gap-3 p-4">
+              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#e5dddc] p-[15px]">
+                <input type="radio" name="partySize" value="6" class="h-5 w-5"> 6 personas
+              </label>
+              <label class="flex items-center gap-4 rounded-xl border border-solid border-[#e5dddc] p-[15px]">
+                <input type="radio" name="partySize" value="10" class="h-5 w-5"> 10 personas
+              </label>
+            </div>
+            
+            <div class="flex px-4 py-3 justify-end">
+              <button id="confirmReservationButton" class="p-2 bg-red-500 text-white rounded">Confirmar Reserva</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Script para configurar un calendario interactivo
+      document.addEventListener('DOMContentLoaded', function() {
+        const dateInput = document.getElementById('date');
+        dateInput.min = new Date().toISOString().split('T')[0]; // Bloquear fechas pasadas
+      });
+    </script>
+  </body>
+</html>
+
