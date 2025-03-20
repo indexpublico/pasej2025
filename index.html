@@ -11,43 +11,54 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
     <script>
+      // Inicializa el servicio de emailjs
+      (function () {
+        emailjs.init("2EFVJfsCeDK1iyl1l");
+      })();
+
+      let availableSeats = 250;
+
       document.addEventListener('DOMContentLoaded', () => {
-        emailjs.init("your_emailjs_user_id");
-        
         document.getElementById('confirmReservationButton').addEventListener('click', sendReservationEmail);
+        
+        // Bloquear fechas pasadas en el calendario
+        const dateInput = document.getElementById('date');
+        dateInput.min = new Date().toISOString().split('T')[0]; // Establecer la fecha mínima como la fecha actual
       });
 
       function sendReservationEmail() {
+        // Obtener los valores de los campos
         const name = document.getElementById('name').value;
         const email = document.getElementById('email').value;
         const phone = document.getElementById('phone').value;
         const date = document.getElementById('date').value;
         const selectedPartySize = document.querySelector('input[name="partySize"]:checked');
-        
+
+        // Validar campos vacíos
         if (!name || !email || !phone || !date || !selectedPartySize) {
           alert("Por favor, complete todos los campos.");
           return;
         }
 
+        const partySize = parseInt(selectedPartySize.value);
+
+        // Validar disponibilidad de sillas
+        if (availableSeats - partySize < 0) {
+          alert("No hay suficientes sillas disponibles para esta reserva.");
+          return;
+        }
+
+        // Preparar datos para enviar
         const emailData = {
           name: name,
           email: email,
           phone: phone,
           date: date,
-          partySize: selectedPartySize.value
+          partySize: partySize
         };
 
-var templateParams = {
-  name: 'James',
-  notes: 'Check this out!',
-};
-
-        emailjs.send('service_ud1ca5s', 'template_0dy8a7a', templateParams)
-          .then(response => {
-            alert("¡Reserva confirmada! Se ha enviado un correo de confirmación.");
-          }, error => {
-            alert("Error al enviar el correo. Inténtelo nuevamente.");
-          });
+        // Aquí podrías agregar el código para enviar el email utilizando emailjs
+        console.log("Reserva confirmada: ", emailData);
       }
     </script>
   </head>
@@ -71,10 +82,10 @@ var templateParams = {
             <h3 class="text-lg font-bold px-4 pt-4">Seleccione el tamaño de la mesa</h3>
             <div class="flex flex-col gap-3 p-4">
               <label class="flex items-center gap-4 rounded-xl border border-solid border-[#e5dddc] p-[15px]">
-                <input type="radio" name="partySize" value="6" class="h-5 w-5"> 6 personas
+                <input type="radio" name="partySize" value="6" class="h-5 w-5" required> 6 personas
               </label>
               <label class="flex items-center gap-4 rounded-xl border border-solid border-[#e5dddc] p-[15px]">
-                <input type="radio" name="partySize" value="10" class="h-5 w-5"> 10 personas
+                <input type="radio" name="partySize" value="10" class="h-5 w-5" required> 10 personas
               </label>
             </div>
             
@@ -85,13 +96,6 @@ var templateParams = {
         </div>
       </div>
     </div>
-    <script>
-      // Script para configurar un calendario interactivo
-      document.addEventListener('DOMContentLoaded', function() {
-        const dateInput = document.getElementById('date');
-        dateInput.min = new Date().toISOString().split('T')[0]; // Bloquear fechas pasadas
-      });
-    </script>
   </body>
 </html>
 
